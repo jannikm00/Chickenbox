@@ -1,8 +1,10 @@
-int euro1 = 0
-int euro2 = 0
+int euro1 = 0 //Münze eingeworfen
+int euro2 = 0 //Gesamt Münzen
 int kisten = 0
 int coinpin = 2
 int motorpin = 3
+int B1 = 6 //Grundstellung
+int B2 = 7 //Endtaster
 int coinresetpin = 4
 int kistenaddpin = 5
 float temp;
@@ -39,10 +41,12 @@ euro2++;
 }
 
 void motor(){
-digitalWrite(motorpin, HIGH);
-delay(1000);
-digitalWrite(motorpin, LOW);
-kisten--;
+if(digitalRead(B1)) == HIGH{
+while(digitalRead(B2)) == LOW{
+digitalWrite(motorpin, HIGH); }
+}
+else{
+digitalWrite(motorpin, LOW); }
 }
 
 void lcd(){
