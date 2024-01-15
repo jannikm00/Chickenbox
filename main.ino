@@ -1,80 +1,97 @@
-int euro1 = 0;//Münze eingeworfen
-int euro2 = 0;//Gesamt Münzen
+#include <Adafruit_LiquidCrystal.h>
+Adafruit_LiquidCrystal lcd_1(0);
+int euro1 = 0;  //Münze eingeworfen
+int euro2 = 0;  //Gesamt Münzen
 int kisten = 0;
 int coinpin = 2;
 int motorpin = 3;
-int Sens1 = 6; //Grundstellung
-int Sens2 = 7; //Endtaster
+int Sens1 = 6;  //Grundstellung
+int Sens2 = 7;  //Endtaster
 int coinresetpin = 4;
 int kistenaddpin = 5;
 float temp;
 float humid;
 
-void setup(){
-Serial.begin(9600);
+void setup() {
+  Serial.begin(9600);
+  lcd_1.begin(16, 2);
+  lcdi2c();
 }
 
-void loop(){
-coin();
-lcd();
-control();
+void loop() {
+  coin();
+  control();
   motoroff();
-  Serial.write("coins");
-  Serial.println(euro1);
-  Serial.write("kisten");
-  Serial.println(kisten);
- Serial.write("Grundstellung");
-  Serial.println(digitalRead(Sens1));
-  Serial.write("Endstellung");
-  Serial.println(digitalRead(Sens2));
-  
 }
 
-void control(){
-if(digitalRead(coinresetpin) == HIGH){
-euro1 = 0;
-euro2 = 0;
-}
-if(digitalRead(kistenaddpin) == HIGH){
- delay(1000);
-kisten++;
-}
-}
-
-void coin(){
-if(digitalRead(coinpin) == HIGH){
-  delay(1000);
-euro1++;
-output();
-}
-}
-
-void output(){
-  if(kisten >= 1){
-   
-    motor();}
-euro2++;
-}
-
-
-void motor(){
-if(digitalRead(Sens1) == HIGH){
-  
-if(digitalRead(Sens2) == LOW){
-digitalWrite(motorpin, HIGH);
-  kisten--;
-}
-}
-}
-
-void motoroff(){
-  if(digitalRead(Sens2) == HIGH){
-  digitalWrite(motorpin, LOW);
+void control() {
+  if (digitalRead(coinresetpin) == HIGH) {
+    euro1 = 0;
+    euro2 = 0;
+    lcdi2c();
   }
-   }
-void lcd(){
-/*
-serial.Println("Temp:" temp);
-serial.Println("Humid:" humid);
-*/
+  if (digitalRead(kistenaddpin) == HIGH) {
+    delay(0);
+    kisten++;
+    lcd_1.clear();
+    lcdi2c();
+  }
+}
+
+void coin() {
+  if (digitalRead(coinpin) == HIGH) {
+    delay(0);
+    euro1++;
+    euro2++;
+    lcdi2c();
+    if (euro1 >= 3) {
+      output();
+    }
+  }
+}
+
+void output() {
+  if (kisten >= 1) {
+    motor();
+  }
+  lcdi2c();
+}
+
+
+void motor() {
+  if (digitalRead(Sens1) == HIGH) {
+
+    if (digitalRead(Sens2) == LOW) {
+      digitalWrite(motorpin, HIGH);
+      kisten--;
+      euro1 = 0;
+      lcdi2c();
+    }
+  }
+}
+
+void motoroff() {
+  if (digitalRead(Sens2) == HIGH) {
+    digitalWrite(motorpin, LOW);
+  }
+}
+
+void lcdi2c() {
+
+  lcd_1.setCursor(0, 0);
+  lcd_1.print("Kisten:");
+  lcd_1.setCursor(7, 0);
+  lcd_1.print(kisten);
+
+  if (kisten < 1) {
+    lcd_1.setCursor(9, 0);
+    lcd_1.print("!!!");
+  }
+
+  lcd_1.setCursor(0, 1);
+  lcd_1.print("Kredit:");
+  lcd_1.setCursor(7, 1);
+  lcd_1.print(euro1);
+  lcd_1.setCursor(15, 1);
+  lcd_1.print(euro2);
 }
