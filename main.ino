@@ -64,7 +64,8 @@ void motor() {
     if (digitalRead(Sens2) == LOW) {
       digitalWrite(motorpin, HIGH);
       kisten--;
-      euro1 = 0;
+      lcd_1.clear();
+      euro1 = euro1 - 3;
       lcdi2c();
     }
   }
@@ -92,6 +93,6 @@ void lcdi2c() {
   lcd_1.print("Kredit:");
   lcd_1.setCursor(7, 1);
   lcd_1.print(euro1);
-  lcd_1.setCursor(15, 1);
+  lcd_1.setCursor(14, 1);
   lcd_1.print(euro2);
 }
