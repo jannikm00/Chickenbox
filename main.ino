@@ -16,7 +16,7 @@ float humid;
 */
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(9600); 
   lcd_1.begin(16, 2); 
   lcdi2c();
 }
@@ -63,7 +63,6 @@ void output(){
 
 void motor() {
   if (digitalRead(Sens1) == HIGH) {
-
     if (digitalRead(Sens2) == LOW) {
       digitalWrite(motorpin, HIGH);
       kisten--;
@@ -81,7 +80,6 @@ void motoroff() {
 }
 
 void lcdi2c() {
-
   lcd_1.setCursor(0, 0);
   lcd_1.print("Kisten:");
   lcd_1.setCursor(7, 0);
