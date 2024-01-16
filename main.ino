@@ -2,27 +2,29 @@
 Adafruit_LiquidCrystal lcd_1(0);
 int euro1 = 0;  //Münze eingeworfen
 int euro2 = 0;  //Gesamt Münzen
-int kisten = 0;
-int coinpin = 2;
-int motorpin = 3;
-int ausgabe = 8; 
+int kisten = 0; //Kistenanzahl
+int coinpin = 2; //Münz Kontakt
+int motorpin = 3; //Motor Transistor Basis
+int ausgabe = 8; //Ausgabe
 int Sens1 = 6;  //Grundstellung
 int Sens2 = 7;  //Endtaster
-int coinresetpin = 4;
-int kistenaddpin = 5;
+int coinresetpin = 4; //Münz-Rücksetz Pin
+int kistenaddpin = 5; //Kisten-Hinzufüg Pin
+/*
 float temp;
 float humid;
+*/
 
 void setup() {
   Serial.begin(9600);
-  lcd_1.begin(16, 2);
+  lcd_1.begin(16, 2); 
   lcdi2c();
 }
 
 void loop() {
-  coin();
-  control();
-  motoroff();
+  coin(); //Münzzählung
+  control(); //Kisten++; Münzen reset
+  motoroff(); //
   output();
 }
 
