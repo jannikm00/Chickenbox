@@ -5,6 +5,7 @@ int euro2 = 0;  //Gesamt Münzen
 int kisten = 0;
 int coinpin = 2;
 int motorpin = 3;
+int ausgabe = 8; 
 int Sens1 = 6;  //Grundstellung
 int Sens2 = 7;  //Endtaster
 int coinresetpin = 4;
@@ -22,6 +23,7 @@ void loop() {
   coin();
   control();
   motoroff();
+  output();
 }
 
 void control() {
@@ -44,17 +46,16 @@ void coin() {
     euro1++;
     euro2++;
     lcdi2c();
-    if (euro1 >= 3) {
-      output();
-    }
   }
 }
 
-void output() {
-  if (kisten >= 1) {
+
+void output(){
+  if(digitalRead(ausgabe) == HIGH){
+  if (kisten >= 1 && euro1 >= 3) {
     motor();
   }
-  lcdi2c();
+  lcdi2c();}
 }
 
 
