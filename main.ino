@@ -24,8 +24,8 @@ void setup() {
 void loop() {
   coin(); //Münzzählung
   control(); //Kisten++; Münzen reset
-  motoroff(); //
-  output();
+  motoroff(); //Motor Anschlag Stopp
+  output(); //Ausgabe
 }
 
 void control() {
